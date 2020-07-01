@@ -1,0 +1,29 @@
+{
+  "name": "leben",
+  "version": "0.0.1",
+  "description": "Utilities to work with documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arotna/leben.git"
+  },
+  "keywords": [
+    "adoc",
+    "md",
+    "documentation"
+  ],
+  "author": "pwright",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arotna/leben/issues"
+  },
+  "homepage": "https://github.com/arotna/leben#readme",
+  "dependencies": {
+    "@antora/cli": "^2.3.3",
+    "@antora/site-generator-default": "^2.3.3",
+    "hygen": "^5.0.3"
+  }
+}
