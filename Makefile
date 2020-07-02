@@ -18,6 +18,10 @@ init:
 		cd temp; tree --prune -l -H '.' -P '*.adoc' > adoc-list-sym.html
 
 
+.PHONY: docs
+docs:
+		./asciidoc-coalescer.rb  -a include-tags="goals.adoc" README-template.adoc > modules/ROOT/pages/goals.adoc
+
 
 .PHONY: adoc
 adoc: 
