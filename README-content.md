@@ -18,6 +18,10 @@ This project attempts to use the following tech:
 * Makefile
 * Asciidoctor
 
+The init option should:
+
+* copy files
+* produce reports
 
 
 // end::background.adoc[]

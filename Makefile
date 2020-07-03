@@ -29,10 +29,11 @@ init:
 		rsync -arv --exclude=.git $(target) playground/$(name)
 			cd playground/$(name); tree --prune -H '.' -P '*.adoc' > html/adoc-list.html
 		cd playground/$(name); tree --prune -l -H '.' -P '*.adoc' > html/adoc-list-sym.html
-		cd playground/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/title.list
+		cd playground/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/titles.list
 		cd playground/$(name);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > html/assemblies.list
 		#cd playground/$(name);while read ass;do sed -n 's/^include.*\/\(.*\).adoc.*/\1/p' $${ass}; done <  html/assemblies.list
 		cd playground/$(name);while read ass;do ../../make-csv.sh $${ass}; done <  html/assemblies.list
+		cd playground/$(name);while read ass;do ../../make-titles.sh $${ass}; done <  html/titles.list
 
 
 .PHONY: docs
