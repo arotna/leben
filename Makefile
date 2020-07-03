@@ -21,24 +21,24 @@ export PYTHONPATH := python
 
 .PHONY: clean
 clean:
-		rm -rf temp/*
+		rm -rf playground/*
 
 .PHONY: init
 init:
-		mkdir -p temp/$(name)/html
-		#rsync -arv --exclude=.git $(target) temp/$(name)
-		cd temp/$(name); tree --prune -H '.' -P '*.adoc' > html/adoc-list.html
-		cd temp/$(name); tree --prune -l -H '.' -P '*.adoc' > html/adoc-list-sym.html
-		cd temp/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/title.list
-		cd temp/$(name);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > html/assemblies.list
-		#cd temp/$(name);while read ass;do sed -n 's/^include.*\/\(.*\).adoc.*/\1/p' $${ass}; done <  html/assemblies.list
-		cd temp/$(name);while read ass;do ../../make-csv.sh $${ass}; done <  html/assemblies.list
+		mkdir -p playground/$(name)/html
+		rsync -arv --exclude=.git $(target) playground/$(name)
+			cd playground/$(name); tree --prune -H '.' -P '*.adoc' > html/adoc-list.html
+		cd playground/$(name); tree --prune -l -H '.' -P '*.adoc' > html/adoc-list-sym.html
+		cd playground/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/title.list
+		cd playground/$(name);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > html/assemblies.list
+		#cd playground/$(name);while read ass;do sed -n 's/^include.*\/\(.*\).adoc.*/\1/p' $${ass}; done <  html/assemblies.list
+		cd playground/$(name);while read ass;do ../../make-csv.sh $${ass}; done <  html/assemblies.list
 
 
 .PHONY: docs
 docs:
-		./asciidoc-coalescer.rb  -a include-tags="goals.adoc" README-template.adoc > modules/ROOT/pages/goals.adoc
-		./asciidoc-coalescer.rb  -a include-tags="!goals.adoc" README-template.adoc > README.md
+		./make-adocs.sh README-content.md modules/ROOT/pages/
+		./asciidoc-coalescer.rb  -a include-tags="!goals.adoc;!background.adoc" README-template.adoc > README.md
 
 .PHONY: adoc
 adoc: 
@@ -57,6 +57,6 @@ render:
 .PHONY: org
 org:
 		# only supports github
-		curl -s https://api.github.com/orgs/$(org)/repos|jq -r '.[] | .name'|sed "s/\(.*\)/--output-document=\1.md https:\/\/raw.githubusercontent.com\/$(org)\/\1\/master\/README.md/p" > temp/$(name)/readmes.list
+		curl -s https://api.github.com/orgs/$(org)/repos|jq -r '.[] | .name'|sed "s/\(.*\)/--output-document=\1.md https:\/\/raw.githubusercontent.com\/$(org)\/\1\/master\/README.md/p" > playground/$(name)/readmes.list
 
-		cd temp/$(name);while read file; do wget $${file}; done < ./readmes.list
+		cd playground/$(name);while read file; do wget $${file}; done < ./readmes.list
