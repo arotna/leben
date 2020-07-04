@@ -1,5 +1,7 @@
 ---
 to: <%= dirName %>/antora.yml
+
+sh: ln -nsf ../../../<%= assemblies %> <%= dirName %>/modules/ROOT/pages/assemblies
 ---
 name: <%= compName %>
 title: <%= compName %>

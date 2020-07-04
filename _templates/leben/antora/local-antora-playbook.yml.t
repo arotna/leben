@@ -1,5 +1,7 @@
 ---
-to: local-antora-playbook.yml
+to:  <%= dirName %>/local-antora-playbook.yml
+
+sh: ln -nsf ../../../<%= modules %> <%= dirName %>/modules/ROOT/partials/modules
 ---
 site:
   title: <%= compName %>
@@ -10,13 +12,12 @@ content:
   sources:
   - url: .
     branches: HEAD
-    start_path: antora
 
 
 
 ui:
   bundle:
-    url: ./ui-bundle.zip
+    url: https://github.com/arotna/antora-ui/raw/master/build/ui-bundle.zip
     snapshot: true
 
 output:
@@ -27,9 +28,6 @@ asciidoc:
     plantuml-server-url: 'http://www.plantuml.com/plantuml'
     plantuml-fetch-diagram: true
     mod-loc: partial$
-    registry: Apicurio Registry
-    apicurio-registry: true
-    page-pagination: true
+    compName: <%= compName %>
   extensions:
     - asciidoctor-plantuml
-    - ./lib/tab-block.js

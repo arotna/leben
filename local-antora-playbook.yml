@@ -1,27 +1,32 @@
 site:
-  title: Arotna Leben
+  title: openshift
   # the 404 page and sitemap files only get generated when the url property is set
-  url: https://arotna.github.io/leben
-  start_page: leben::index.adoc
+  url: https://pwright.github.io/Waterworld/
+  start_page: openshift::index.adoc
 content:
-  edit_url: false
   sources:
   - url: .
     branches: HEAD
-    edit_url: false
+    start_path: antora
 
 
 
 ui:
   bundle:
-    url: https://github.com/arotna/antora-ui/raw/master/build/ui-bundle.zip
+    url: ./ui-bundle.zip
     snapshot: true
 
 output:
-  dir: ./docs
+  dir: playground/openshift-docs//html
 
 asciidoc:
   attributes:
     plantuml-server-url: 'http://www.plantuml.com/plantuml'
     plantuml-fetch-diagram: true
     mod-loc: partial$
+    registry: Apicurio Registry
+    apicurio-registry: true
+    page-pagination: true
+  extensions:
+    - asciidoctor-plantuml
+    - ./lib/tab-block.js

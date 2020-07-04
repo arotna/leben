@@ -63,13 +63,12 @@ docs:
 
 .PHONY: adoc
 adoc: 
-		HYGEN_OVERWRITE=1 hygen world makeAdoc --dirName  --compName $(name)
+		HYGEN_OVERWRITE=1 hygen leben makeAdoc --dirName playground/$(name) --compName $(name)
 
 .PHONY: antora
 antora:
-		HYGEN_OVERWRITE=1 hygen world antora --dirName antora --htmlDir docs --compName GitWorld
-		touch .nojekyll
-		touch docs/.nojekyll
+		HYGEN_OVERWRITE=1 hygen leben antora --dirName playground/$(name) --htmlDir html --compName $(name) \
+		--modules $(modules) --assemblies $(assemblies)
 
 .PHONY: render
 render:
