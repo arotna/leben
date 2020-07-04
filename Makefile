@@ -1,8 +1,10 @@
 #// tag::attributes.adoc[]
 
 name := registry
-org := apicurio
-target_repo := ../apicurio-registry
+git_host := github.com
+org := Apicurio
+target_repo := apicurio-registry
+target_branch := master
 target_docs := /docs
 target := $(target_repo)$(target_docs)
 
@@ -12,8 +14,12 @@ images := images
 attributes := shared
 titles := getting-started
 
-
 #// end::attributes.adoc[]
+
+mkfile_path :=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+#mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+#cur_path := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
 
 .NOTPARALLEL:
 
@@ -22,12 +28,25 @@ export PYTHONPATH := python
 .PHONY: clean
 clean:
 		rm -rf playground/*
+		rm -rf temp/*
 
 .PHONY: init
 init:
+		
+		echo $(mkfile_path)
+		rm -rf temp/*
 		mkdir -p playground/$(name)/html
-		#rsync -arv --exclude=.git $(target) playground/$(name)
-			cd playground/$(name); tree --prune -H '.' -P '*.adoc' > html/adoc-list.html
+		if [ "$(target_branch)" = "HEAD" ]; then \
+			echo local $(target_branch); \
+			rsync -arv --exclude=.git ../$(target) playground/$(name); \
+		else \
+			echo remote $(target_branch); \
+			cd temp; \
+			git clone https://$(git_host)/$(org)/$(target_repo); \
+			rsync -arv --exclude=.git $(target) $(mkfile_path)/playground/$(name); \
+			cd ..; \
+		fi
+		cd playground/$(name); tree --prune -H '.' -P '*.adoc' > html/adoc-list.html
 		cd playground/$(name); tree --prune -l -H '.' -P '*.adoc' > html/adoc-list-sym.html
 		cd playground/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/titles.list
 		cd playground/$(name);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > html/assemblies.list
@@ -35,6 +54,7 @@ init:
 		cd playground/$(name);while read ass;do ../../make-csv.sh $${ass}; done <  html/assemblies.list
 		cd playground/$(name);while read ass;do ../../make-titles.sh $${ass}; done <  html/titles.list
 		cd playground/$(name);while read ass;do ../../make-manifest.sh $${ass}; done <  html/titles.list
+		cd playground/$(name)$(target_docs)/$(modules);find . -name \*.adoc -print > $(mkfile_path)/playground/$(name)/html/modules.list
 
 
 .PHONY: docs
