@@ -17,7 +17,7 @@ target := $(target_repo)$(target_docs)
 assemblies := assemblies
 modules := modules
 images := _images
-attributes := _artifacts
+attributes := _snippets
 titles := titles-enterprise
 
 #// end::attributes.adoc[]

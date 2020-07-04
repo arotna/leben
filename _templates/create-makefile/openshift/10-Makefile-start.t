@@ -5,19 +5,19 @@ before: Template
 ---
 #// tag::attributes.adoc[]
 
-name := registry
+name := openshift
 git_host := github.com
-org := Apicurio
-target_repo := apicurio-registry
-#target_branch := HEAD
-target_branch := master
-target_docs := /docs
+org := openshift
+target_repo := openshift-docs
+target_branch := HEAD
+#target_branch := master
+target_docs := /
 target := $(target_repo)$(target_docs)
 
-assemblies := assemblies
+assemblies := /ass
 modules := modules
 images := images
-attributes := shared
-titles := getting-started
+attributes := _artifacts
+titles := titles-enterprise
 
 #// end::attributes.adoc[]
