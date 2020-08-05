@@ -1,0 +1,37 @@
+= Running Leben
+
+Leben can perform one or more of the following tasks:
+
+* Test your repo.
+* Create reports of repo layout and content.
+* Create a website of your repo.
+
+Leben helps answer questions, for example:
+
+* Does your repo conform to FCC layout guidelines?
+* Does your repo conform to the content plan?
+* How do I produce an upstream documentation site?
+
+Using Open Source software for writing documentation should not be painful.
+If you want to contribute to Leben, see 
+
+.Prerequisites
+
+* GNU make - Normally installed on all Macs and PCs
+* Node - although you can install components in other ways
+* link:http://harelba.github.io/q/#installation[q] - packages available at http://harelba.github.io/q/#installation
+
+
+.Procedure
+
+.
+
+.Verification steps
+
+. Review all the reports.
+. Fix all the issues.
+. Commit all the Antora files to your repo, and start publishing with Antora.
+
+.Additional resources
+
+* [Troubleshooting Leben]

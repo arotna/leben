@@ -2,6 +2,7 @@
 inject: true
 to: Makefile
 before: Template
+sh: make list
 ---
 #// tag::attributes.adoc[]
 

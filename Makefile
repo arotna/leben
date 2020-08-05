@@ -1,19 +1,18 @@
 #// tag::attributes.adoc[]
 
-name := enmasse-head
+name := syndesis-HEAD
 git_host := github.com
-org := EnMasseProject
-target_repo := enmasse
+org := syndesisio
+target_repo := syndesis
 target_branch := HEAD
-#target_branch := master
-target_docs := /documentation
+target_docs := /doc
 target := $(target_repo)$(target_docs)
 
 assemblies := assemblies
 modules := modules
-images := _images
-attributes := common
-titles := openshift
+images := images
+attributes := shared
+titles := integrating-applications
 
 #// end::attributes.adoc[]
 
@@ -32,14 +31,25 @@ clean:
 		rm -rf playground/*
 		rm -rf temp/*
 
+
+.PHONY: list
+list:
+		echo $(mkfile_path)
+		echo $(name)
+		echo $(target_repo)
+		echo $(target_docs)
+		echo $(target)
+
 .PHONY: init
 init:
 		
 		# rm -rf temp/*
+		mkdir -p playground/$(name)/reports
 		mkdir -p playground/$(name)/html
+		mkdir -p playground/$(name)/$(target)
 		if [ "$(target_branch)" = "HEAD" ]; then \
 			echo local $(target_branch); \
-			rsync -arv --exclude=.git ../$(target) playground/$(name); \
+			rsync -arv --exclude=.git ../$(target) playground/$(name)/$(target_repo); \
 		else \
 			echo remote $(target_branch); \
 			cd temp; \
@@ -47,7 +57,7 @@ init:
 			cd $(target_repo); \
 			# git checkout $(target_branch); \
 			cd $(mkfile_path)/temp; \
-			rsync -arv --exclude=.git $(target) $(mkfile_path)/playground/$(name); \
+			rsync -arv --exclude=.git $(target) $(mkfile_path)/playground/$(name)/$(target_repo); \
 			cd ..; \
 		fi
 
@@ -56,23 +66,27 @@ init:
 		cd playground/$(name); tree --prune -l -H '.' -P '*.adoc' > html/adoc-list-sym.html
 
 		echo creating enterprise title list
-		cd playground/$(name);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > html/titles.list
+		cd playground/$(name)/$(target_repo);for f in $$(find .$(target_docs)/$(titles) -name 'master.adoc'); do ls -1 $$f; done > ../html/titles.list
 
 		echo creating assembly list
-		cd playground/$(name);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > html/assemblies.list
+		cd playground/$(name)/$(target_repo);for f in $$(find .$(target_docs)/$(assemblies) -name '*.adoc'); do ls -1 $$f; done > ../html/assemblies.list
 
 		echo creating module list
-		cd playground/$(name)$(target_docs)/$(modules);find . -name \*.adoc -print > $(mkfile_path)/playground/$(name)/html/modules.list
+		cd playground/$(name)/$(target_repo)$(target_docs)/$(modules);find . -name \*.adoc -print > $(mkfile_path)/playground/$(name)/html/modules.list
 
 		echo creating csv files
 		
-		cd playground/$(name);while read ass;do ../../make-csv.sh $${ass}; done <  html/assemblies.list
+		cd playground/$(name)/$(target_repo);while read ass;do $(mkfile_path)/make-csv.sh $${ass}; done <  ../html/assemblies.list
 
 		echo creating titles
-		cd playground/$(name);while read ass;do ../../make-titles.sh $${ass}; done <  html/titles.list
+		cd playground/$(name)/$(target_repo);while read ass;do $(mkfile_path)/make-titles.sh $${ass}; done <  ../html/titles.list
 
 		echo creating manifest
-		cd playground/$(name);while read ass;do ../../make-manifest.sh $${ass}; done <  html/titles.list
+		cd playground/$(name)/$(target_repo);while read ass;do $(mkfile_path)/make-manifest.sh $${ass}; done <  ../html/titles.list
+
+		echo move csvs
+
+		mv playground/$(name)/$(target_repo)/*.csv playground/$(name)/reports
 
 
 .PHONY: docs
