@@ -1,16 +1,20 @@
-name := enmasse-head
-git_host := github.com
-org := EnMasseProject
-target_repo := enmasse
-target_branch := HEAD
+---
+sh: shyaml
+to: Makefile
+---
+name := <%= name %>
+git_host := <%= git_host %>
+org := <%= org %>
+target_repo := <%= target_repo %>
+target_branch := <%= target_branch %>
 #target_branch := master
-target_docs := /documentation
+target_docs := <%= target_docs %>
 
-assemblies := assemblies
-modules := modules
-images := images
-attributes_dir := common
-title_dir := openshift
+assemblies := <%= assemblies %>
+modules := <%= modules %>
+images := <%= images %>
+attributes_dir := <%= attributes_dir %>
+title_dir := <%= title_dir %>
 
 # Template - Create Makefile using hygen template
 target := $(target_repo)$(target_docs)

@@ -1,0 +1,17 @@
+--- 
+kind: ContentMap
+metadata: 
+  name: syndesis-head
+  target_branch: HEAD
+  target_repo: enmasse
+  target_docs: /documentation
+  git_host: github.com
+  assemblies: assemblies
+  attributes_dir: common
+  images: images
+  modules: modules
+  org: EnMasseProject
+  title_dir: openshift
+  title_dirs: 
+    - openshift
+    - test
