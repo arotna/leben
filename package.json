@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/arotna/leben#readme",
   "dependencies": {
-    "@antora/cli": "^2.3.3",
-    "@antora/site-generator-default": "^2.3.3",
+    "@antora/cli": "^3.1.2",
+    "@antora/site-generator-default": "^3.1.2",
     "hygen": "^5.0.3"
   }
 }
